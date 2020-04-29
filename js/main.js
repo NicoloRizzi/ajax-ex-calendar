@@ -43,7 +43,9 @@ $(document).ready(function () {
         if(baseMonth.month() < 11){
             baseMonth = baseMonth.add(1, "M");
             console.log(baseMonth);
-            
+            $('.month-list').children().remove();
+            printMonth(template,baseMonth);
+            printHoliday(baseMonth);
         }
         
     });
