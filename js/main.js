@@ -1,7 +1,25 @@
 /**
  * WELCOME TO MOMENT JS
+ * 
+    Descrizione
+Creare un calendario dinamico con le festività. Partiamo dal gennaio 2018 dando la possibilità di cambiare mese, gestendo il caso in cui l’API non possa ritornare festività. Il calendario partirà da gennaio 2018 e si concluderà a dicembre 2018 (unici dati disponibili sull’API).
+Ogni volta che cambio mese dovrò:
+Controllare se il mese è valido (per ovviare al problema che l’API non carichi holiday non del 2018)
+Controllare quanti giorni ha il mese scelto formando così una lista
+Chiedere all’api quali sono le festività per il mese scelto
+Evidenziare le festività nella lista
+BONUS OPZIONALE:
+Trasformare la lista precedente in un vero e proprio calendario, generando una griglia che segua l’andamento dei giorni di un mese a scelta, evidenziando le festività.`
+Creare dei bottoni che permettano di spostarsi di mese in mese, rigenerando ogni volta la griglia e le festività associate
+Sarà indispensabile sia per la parte obbligatoria, che per quella facoltativa, l’utilizzo di momentjs e dell’API holiday https://flynn.boolean.careers/exercises/api/holidays?year=2018&month=0.
+Nome repo per consegnare l’esercizio: ajax-ex-calendar
+Link doc Moment JS: https://momentjs.com/
+Allego sotto lo zip con la parte di codice fatta insieme questa mattina.
+Buon lavoro ragazzi e calendizzate come non ci fosse un domani!
+-->
  */
 $(document).ready(function () {
+
     
     /**
      * SETUP
@@ -9,7 +27,8 @@ $(document).ready(function () {
 
     // Punto di partenza
     var baseMonth = moment('2018-01-01'); 
-
+    var prev = $('.prev-month');
+    var next = $('.next-month');
     // Init Hndlenars
     var source = $('#day-template').html();
     var template = Handlebars.compile(source);
@@ -19,6 +38,15 @@ $(document).ready(function () {
 
     // ottieni festività mese corrente
     printHoliday(baseMonth);
+
+    $(next).click(function () { 
+        if(baseMonth.month() < 11){
+            baseMonth = baseMonth.add(1, "M");
+            console.log(baseMonth);
+            
+        }
+        
+    });
 
 }); // <-- End doc ready
 
