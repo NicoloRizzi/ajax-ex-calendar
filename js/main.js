@@ -39,6 +39,7 @@ $(document).ready(function () {
     // ottieni festività mese corrente
     printHoliday(baseMonth);
 
+    // click su next
     $(next).click(function () { 
         if(baseMonth.month() < 11){
             baseMonth = baseMonth.add(1, "M");
@@ -48,7 +49,21 @@ $(document).ready(function () {
             printHoliday(baseMonth);
         }
         
-    });
+    }); // END NEXT CLICK
+
+    //click su prev
+    $(prev).click(function () {
+        if (baseMonth.month() < 11) {
+            baseMonth = baseMonth.subtract(1, "M");
+            console.log(baseMonth);
+            $('.month-list').children().remove();
+            printMonth(template, baseMonth);
+            printHoliday(baseMonth);
+        }
+
+    }); // END PREV CLICK
+
+
 
 }); // <-- End doc ready
 
