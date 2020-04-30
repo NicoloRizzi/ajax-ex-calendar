@@ -29,7 +29,7 @@ $(document).ready(function () {
     var baseMonth = moment('2018-01-01'); 
     var prev = $('.prev-month');
     var next = $('.next-month');
-    // Init Hndlenars
+    // Init Handlebars
     var source = $('#day-template').html();
     var template = Handlebars.compile(source);
 
@@ -41,11 +41,16 @@ $(document).ready(function () {
 
     // click su next
     $(next).click(function () { 
-        if(baseMonth.month() < 11){
+        if (baseMonth.month() < 11){
             baseMonth = baseMonth.add(1, "M");
             console.log(baseMonth);
             $('.month-list').children().remove();
             printMonth(template,baseMonth);
+            printHoliday(baseMonth);
+        } else {
+            baseMonth.month(0);
+            $('.month-list').children().remove();
+            printMonth(template, baseMonth);
             printHoliday(baseMonth);
         }
         
@@ -53,9 +58,14 @@ $(document).ready(function () {
 
     //click su prev
     $(prev).click(function () {
-        if (baseMonth.month() < 11) {
+        if (baseMonth.month() > 0) {
             baseMonth = baseMonth.subtract(1, "M");
             console.log(baseMonth);
+            $('.month-list').children().remove();
+            printMonth(template, baseMonth);
+            printHoliday(baseMonth);
+        } else if (baseMonth.month() <= 0) {
+            baseMonth.month(11);
             $('.month-list').children().remove();
             printMonth(template, baseMonth);
             printHoliday(baseMonth);
