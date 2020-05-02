@@ -19,22 +19,24 @@ Buon lavoro ragazzi e calendizzate come non ci fosse un domani!
 -->
  */
 $(document).ready(function () {
-
-    
+ 
     /**
      * SETUP
      */
 
     // Punto di partenza
-    var baseMonth = moment('2018-01-01'); 
+    moment.locale('it');
+    var baseMonth = moment('2018-01-01');   
     var prev = $('.prev-month');
     var next = $('.next-month');
+    var monthTitle = $('h1.month');
+    
     // Init Handlebars
     var source = $('#day-template').html();
     var template = Handlebars.compile(source);
 
     // print giorno
-    printMonth(template, baseMonth);
+    printMonth(template, baseMonth, monthTitle);
 
     // ottieni festività mese corrente
     printHoliday(baseMonth);
@@ -43,14 +45,13 @@ $(document).ready(function () {
     $(next).click(function () { 
         if (baseMonth.month() < 11){
             baseMonth = baseMonth.add(1, "M");
-            console.log(baseMonth);
             $('.month-list').children().remove();
-            printMonth(template,baseMonth);
+            printMonth(template,baseMonth,monthTitle);
             printHoliday(baseMonth);
         } else {
             baseMonth.month(0);
             $('.month-list').children().remove();
-            printMonth(template, baseMonth);
+            printMonth(template, baseMonth, monthTitle);
             printHoliday(baseMonth);
         }
         
@@ -60,20 +61,17 @@ $(document).ready(function () {
     $(prev).click(function () {
         if (baseMonth.month() > 0) {
             baseMonth = baseMonth.subtract(1, "M");
-            console.log(baseMonth);
             $('.month-list').children().remove();
-            printMonth(template, baseMonth);
+            printMonth(template, baseMonth,monthTitle);
             printHoliday(baseMonth);
         } else if (baseMonth.month() <= 0) {
             baseMonth.month(11);
             $('.month-list').children().remove();
-            printMonth(template, baseMonth);
+            printMonth(template, baseMonth, monthTitle);
             printHoliday(baseMonth);
         }
 
     }); // END PREV CLICK
-
-
 
 }); // <-- End doc ready
 
@@ -83,15 +81,14 @@ $(document).ready(function () {
  *************************************/
 
 // Stampa a schermo i giorni del mese
-function printMonth(template, date) {
+function printMonth(template, date, monthTitle) {
     // numero giorni nel mese
     var daysInMonth = date.daysInMonth();
 
     //  setta header
-    $('h1').html( date.format('MMMM YYYY') );
-
+    $(monthTitle).html( date.format('MMMM YYYY') ); 
     // Imposta data attribute data visualizzata
-    $('.month').attr('data-this-date',  date.format('YYYY-MM-DD'));
+    $(monthTitle).attr('data-this-date',  date.format('YYYY-MM-DD'));
 
     // genera giorni mese
     for (var i = 0; i < daysInMonth; i++) {
@@ -143,4 +140,6 @@ function printHoliday(date) {
             console.log('Errore chiamata festività'); 
         }
     });
+
 }
+
