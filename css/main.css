@@ -15,8 +15,37 @@ body {
 
 li.holiday {
     color: red;
+    
 }
 
 ul {
     list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 50px;
+}
+
+.main-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    background-color: #122c34 ;
+    min-height: 64px;
+    color: #F5F9E9;
+}
+
+.main-header i {
+    font-size: 30px;
+    cursor: pointer;
+}
+
+li {
+    border: 1px solid black;
+    flex-basis: 100px;
+    min-height: 100px;
+    align-items: center;
+    display: flex;
+    cursor: pointer;
+    justify-content: center;
 }
