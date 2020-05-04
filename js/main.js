@@ -1,25 +1,4 @@
-/**
- * WELCOME TO MOMENT JS
- * 
-    Descrizione
-Creare un calendario dinamico con le festività. Partiamo dal gennaio 2018 dando la possibilità di cambiare mese, gestendo il caso in cui l’API non possa ritornare festività. Il calendario partirà da gennaio 2018 e si concluderà a dicembre 2018 (unici dati disponibili sull’API).
-Ogni volta che cambio mese dovrò:
-Controllare se il mese è valido (per ovviare al problema che l’API non carichi holiday non del 2018)
-Controllare quanti giorni ha il mese scelto formando così una lista
-Chiedere all’api quali sono le festività per il mese scelto
-Evidenziare le festività nella lista
-BONUS OPZIONALE:
-Trasformare la lista precedente in un vero e proprio calendario, generando una griglia che segua l’andamento dei giorni di un mese a scelta, evidenziando le festività.`
-Creare dei bottoni che permettano di spostarsi di mese in mese, rigenerando ogni volta la griglia e le festività associate
-Sarà indispensabile sia per la parte obbligatoria, che per quella facoltativa, l’utilizzo di momentjs e dell’API holiday https://flynn.boolean.careers/exercises/api/holidays?year=2018&month=0.
-Nome repo per consegnare l’esercizio: ajax-ex-calendar
-Link doc Moment JS: https://momentjs.com/
-Allego sotto lo zip con la parte di codice fatta insieme questa mattina.
-Buon lavoro ragazzi e calendizzate come non ci fosse un domani!
--->
- */
 $(document).ready(function () {
- 
     /**
      * SETUP
      */
@@ -42,34 +21,13 @@ $(document).ready(function () {
     printHoliday(baseMonth);
 
     // click su next
-    $(next).click(function () { 
-        if (baseMonth.month() < 11){
-            baseMonth = baseMonth.add(1, "M");
-            $('.month-list').children().remove();
-            printMonth(template,baseMonth,monthTitle);
-            printHoliday(baseMonth);
-        } else {
-            baseMonth.month(0);
-            $('.month-list').children().remove();
-            printMonth(template, baseMonth, monthTitle);
-            printHoliday(baseMonth);
-        }
-        
+    $(next).click(function () {
+        navigateMonth(template, 'next', baseMonth,monthTitle)
     }); // END NEXT CLICK
 
     //click su prev
-    $(prev).click(function () {
-        if (baseMonth.month() > 0) {
-            baseMonth = baseMonth.subtract(1, "M");
-            $('.month-list').children().remove();
-            printMonth(template, baseMonth,monthTitle);
-            printHoliday(baseMonth);
-        } else if (baseMonth.month() <= 0) {
-            baseMonth.month(11);
-            $('.month-list').children().remove();
-            printMonth(template, baseMonth, monthTitle);
-            printHoliday(baseMonth);
-        }
+    $(prev).click(function () {   
+        navigateMonth(template, 'prev', baseMonth,monthTitle)
 
     }); // END PREV CLICK
 
@@ -82,6 +40,8 @@ $(document).ready(function () {
 
 // Stampa a schermo i giorni del mese
 function printMonth(template, date, monthTitle) {
+    //cleanup dati precedenti
+    $('.month-list').children().remove();
     // numero giorni nel mese
     var daysInMonth = date.daysInMonth();
 
@@ -141,5 +101,19 @@ function printHoliday(date) {
         }
     });
 
+}
+// funzione navigazione mesi nel calendario
+function navigateMonth(template, direction, baseMonth,monthTitle) {
+    if ((baseMonth.month() === 0 && direction === 'prev') || (baseMonth.month() === 11 && direction === 'next')) {
+            alert('Mese non disponibile')
+        } else {
+            if(direction === 'next') {
+                baseMonth.add(1, "M");
+            } else {
+                baseMonth.subtract(1, "M");
+            }
+        printMonth(template, baseMonth, monthTitle);
+        printHoliday(baseMonth);
+        }
 }
 
